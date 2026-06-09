@@ -1,3 +1,7 @@
+// `PreciseNumber` only exposes checked arithmetic (`checked_add`, `checked_mul`, etc.).
+// Unlike the other library crates, non-`checked_arithmetic` tests here cannot use
+// unchecked operators and will call `checked_*` (typically via `.unwrap()`).
+
 use core::hint::black_box;
 
 use cu_spl_math::spl_math::precise_number::PreciseNumber;
