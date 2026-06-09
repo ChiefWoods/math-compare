@@ -1,0 +1,10 @@
+[package]
+name = "cu_spl_math"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+spl-math.workspace = true
+
+[dev-dependencies]
+svm-unit-test = { package = "svm-unit-test-std", path = "../svm_unit_test_std" }
