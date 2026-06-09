@@ -17,6 +17,17 @@ fn bps(bps: i64) -> Micro<i64> {
     Micro::new(bps * 1_000_000 / MAX_BPS)
 }
 
+fn sqrt_newton(n: Micro<i64>, iterations: usize) -> Micro<i64> {
+    let mut guess = (n + scalar(1)) / 2;
+
+    for _ in 0..iterations {
+        let quotient: Micro<i64> = (n / guess).convert::<N6>();
+        guess = ((guess + quotient).convert::<N6>()) / 2;
+    }
+
+    guess
+}
+
 fn exp_taylor(x: Micro<i64>, terms: usize) -> Micro<i64> {
     let mut sum = scalar(1);
     let mut term = scalar(1);
@@ -65,12 +76,13 @@ fn basis_points() {
 }
 
 #[svm_test]
-fn powers() {
+fn powers_and_sqrt() {
     let x = black_box(Micro::new(1_100_000));
     let x2: Micro<i64> = (x * x).convert::<N6>();
     let x4: Micro<i64> = (x2 * x2).convert::<N6>();
+    let root = sqrt_newton(black_box(scalar(144)), black_box(20));
 
-    black_box((x2, x4));
+    black_box((x2, x4, root));
 }
 
 #[svm_test]
