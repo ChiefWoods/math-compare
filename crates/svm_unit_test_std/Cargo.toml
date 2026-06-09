@@ -1,0 +1,18 @@
+[package]
+name = "svm-unit-test-std"
+version = "0.1.8"
+edition = "2024"
+description = "Custom std-compatible implementation of the upstream svm-unit-test crate for generated SBF tests that pull in std."
+
+[lib]
+name = "svm_unit_test"
+
+[dependencies]
+mollusk-svm = "0.13"
+pathdiff = "0.2"
+quote = "1"
+solana-address = "2.6"
+solana-instruction = "3"
+solana-program-error = "3"
+svm-unit-test-macros = "=0.1.8"
+syn = { version = "2", features = ["full", "extra-traits"] }
