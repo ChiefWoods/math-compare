@@ -56,7 +56,7 @@ fn powers_and_sqrt() {
     let x = black_box(dec(11, 1));
     let x2 = x.powu(2);
     let x4 = x.powu(4);
-    let root = dec(144, 0).sqrt();
+    let root = black_box(dec(144, 0)).sqrt();
 
     black_box((x2, x4, root));
 }

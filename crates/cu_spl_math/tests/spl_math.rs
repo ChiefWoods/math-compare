@@ -78,7 +78,7 @@ fn powers_and_sqrt() {
     let x = black_box(number(11).checked_div(&number(10)).unwrap());
     let x2 = x.checked_pow(2).unwrap();
     let x4 = x.checked_pow(4).unwrap();
-    let root = number(144).sqrt().unwrap();
+    let root = black_box(number(144)).sqrt().unwrap();
 
     black_box((x2, x4, root));
 }
@@ -86,5 +86,5 @@ fn powers_and_sqrt() {
 #[svm_test]
 fn exp_approximation() {
     let x = black_box(number(75).checked_div(&number(100)).unwrap());
-    black_box(exp_taylor(&x, 10));
+    black_box(exp_taylor(&x, black_box(10)));
 }

@@ -88,5 +88,5 @@ fn powers_and_sqrt() {
 #[svm_test]
 fn exp_approximation() {
     let x = black_box(Micro::new(750_000));
-    black_box(exp_taylor(x, 10));
+    black_box(exp_taylor(x, black_box(10)));
 }

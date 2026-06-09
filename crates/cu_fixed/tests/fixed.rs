@@ -70,7 +70,7 @@ fn powers_and_sqrt() {
     let x = black_box(I80F48::from_num(11) / I80F48::from_num(10));
     let x2 = x * x;
     let x4 = x2 * x2;
-    let root = I80F48::from_num(144).sqrt();
+    let root = black_box(I80F48::from_num(144)).sqrt();
 
     black_box((x2, x4, root));
 }
@@ -78,5 +78,5 @@ fn powers_and_sqrt() {
 #[svm_test]
 fn exp_approximation() {
     let x = black_box(I80F48::from_num(75) / I80F48::from_num(100));
-    black_box(exp_taylor(x, 10));
+    black_box(exp_taylor(x, black_box(10)));
 }
