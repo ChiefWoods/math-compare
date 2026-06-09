@@ -269,7 +269,7 @@ fn operation_from_test<'a>(test_name: &'a str, library: &str) -> &'a str {
 
 fn operation_alias(operation: &str) -> &str {
     match operation {
-        "exp" | "exp_approximation" | "pow_series" => "exp_or_approximation",
+        "exp" | "exp_approximation" => "exp_or_approximation",
         "powers" => "powers_and_sqrt",
         _ => operation,
     }

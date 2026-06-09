@@ -13,6 +13,19 @@ fn bps(bps: u128) -> PreciseNumber {
     number(bps).checked_div(&number(MAX_BPS)).unwrap()
 }
 
+fn exp_taylor(x: &PreciseNumber, terms: u128) -> PreciseNumber {
+    let mut sum = number(1);
+    let mut term = number(1);
+
+    for n in 1..=terms {
+        term = term.checked_mul(x).unwrap();
+        term = term.checked_div(&number(n)).unwrap();
+        sum = sum.checked_add(&term).unwrap();
+    }
+
+    sum
+}
+
 #[svm_test]
 fn add_sub_mul_div() {
     let a = black_box(number(1_234_567));
@@ -71,9 +84,7 @@ fn powers_and_sqrt() {
 }
 
 #[svm_test]
-fn pow_series() {
-    let base = black_box(number(10075).checked_div(&number(10000)).unwrap());
-    let compounded = base.checked_pow(10).unwrap();
-
-    black_box(compounded);
+fn exp_approximation() {
+    let x = black_box(number(75).checked_div(&number(100)).unwrap());
+    black_box(exp_taylor(&x, 10));
 }
