@@ -1,6 +1,11 @@
 use core::hint::black_box;
 
-use cu_fix::fix::{aliases::si::Micro, typenum::N6};
+use cu_hylo_fix::hylo_fix::{
+    aliases::si::Micro,
+    num_traits::{CheckedAdd, CheckedSub},
+    typenum::N6,
+    CheckedMulFix,
+};
 use svm_unit_test::svm_test;
 
 const MAX_BPS: i64 = 10_000;
@@ -17,23 +22,8 @@ fn bps(bps: i64) -> Micro<i64> {
     Micro::new(bps * 1_000_000 / MAX_BPS)
 }
 
-fn checked_add(a: Micro<i64>, b: Micro<i64>) -> Option<Micro<i64>> {
-    a.bits.checked_add(b.bits).map(Micro::new)
-}
-
-fn checked_sub(a: Micro<i64>, b: Micro<i64>) -> Option<Micro<i64>> {
-    a.bits.checked_sub(b.bits).map(Micro::new)
-}
-
-fn checked_mul(a: Micro<i64>, b: Micro<i64>) -> Option<Micro<i64>> {
-    a.bits
-        .checked_mul(b.bits)?
-        .checked_div(1_000_000)
-        .map(Micro::new)
-}
-
-fn checked_div(a: Micro<i64>, divisor: i64) -> Option<Micro<i64>> {
-    a.bits.checked_div(divisor).map(Micro::new)
+fn checked_mul_at_n6(a: Micro<i64>, b: Micro<i64>) -> Option<Micro<i64>> {
+    a.checked_mul(&b).map(|product| product.convert::<N6>())
 }
 
 fn sqrt_newton(n: Micro<i64>, iterations: usize) -> Micro<i64> {
@@ -76,10 +66,11 @@ fn checked_arithmetic() {
     let a = black_box(amount());
     let b = black_box(scalar(321));
 
-    let out = checked_add(a, b)
-        .and_then(|v| checked_sub(v, scalar(123)))
-        .and_then(|v| checked_mul(v, bps(987)))
-        .and_then(|v| checked_div(v, 2));
+    let out = a
+        .checked_add(&b)
+        .and_then(|v| v.checked_sub(&scalar(123)))
+        .and_then(|v| checked_mul_at_n6(v, bps(987)))
+        .and_then(|v| v.bits.checked_div(2).map(Micro::new));
     black_box(out);
 }
 

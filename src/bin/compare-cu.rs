@@ -39,11 +39,19 @@ const LIBRARIES: &[(&str, Library)] = &[
         },
     ),
     (
-        "fix",
+        "hylo-fix",
         Library {
-            canonical: "fix",
-            package: "cu_fix",
-            test_target: "fix",
+            canonical: "hylo_fix",
+            package: "cu_hylo_fix",
+            test_target: "hylo_fix",
+        },
+    ),
+    (
+        "hylo_fix",
+        Library {
+            canonical: "hylo_fix",
+            package: "cu_hylo_fix",
+            test_target: "hylo_fix",
         },
     ),
     (
@@ -153,14 +161,14 @@ fn print_help() {
     println!();
     println!("Usage: compare-cu [--raw] [--save PATH] <libraries...>");
     println!();
-    println!("Libraries: fixed, rust-decimal, fix, spl-math");
+    println!("Libraries: fixed, rust-decimal, hylo-fix, spl-math");
 }
 
 fn canonical_libraries(names: &[String]) -> Result<Vec<String>, String> {
     let mut libraries = Vec::new();
     for name in names {
         let library = library_for(name).ok_or_else(|| {
-            format!("unknown library `{name}`. Choose from: fixed, rust-decimal, fix, spl-math")
+            format!("unknown library `{name}`. Choose from: fixed, rust-decimal, hylo-fix, spl-math")
         })?;
         if !libraries.iter().any(|item| item == library.canonical) {
             libraries.push(library.canonical.to_string());
