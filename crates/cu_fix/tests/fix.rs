@@ -17,6 +17,25 @@ fn bps(bps: i64) -> Micro<i64> {
     Micro::new(bps * 1_000_000 / MAX_BPS)
 }
 
+fn checked_add(a: Micro<i64>, b: Micro<i64>) -> Option<Micro<i64>> {
+    a.bits.checked_add(b.bits).map(Micro::new)
+}
+
+fn checked_sub(a: Micro<i64>, b: Micro<i64>) -> Option<Micro<i64>> {
+    a.bits.checked_sub(b.bits).map(Micro::new)
+}
+
+fn checked_mul(a: Micro<i64>, b: Micro<i64>) -> Option<Micro<i64>> {
+    a.bits
+        .checked_mul(b.bits)?
+        .checked_div(1_000_000)
+        .map(Micro::new)
+}
+
+fn checked_div(a: Micro<i64>, divisor: i64) -> Option<Micro<i64>> {
+    a.bits.checked_div(divisor).map(Micro::new)
+}
+
 fn sqrt_newton(n: Micro<i64>, iterations: usize) -> Micro<i64> {
     let mut guess = (n + scalar(1)) / 2;
 
@@ -53,14 +72,14 @@ fn add_sub_mul_div() {
 }
 
 #[svm_test]
-fn assign_arithmetic() {
-    let mut out = black_box(amount());
+fn checked_arithmetic() {
+    let a = black_box(amount());
+    let b = black_box(scalar(321));
 
-    out += scalar(321);
-    out -= scalar(123);
-    out = (out * bps(987)).convert::<N6>();
-    out /= 2;
-
+    let out = checked_add(a, b)
+        .and_then(|v| checked_sub(v, scalar(123)))
+        .and_then(|v| checked_mul(v, bps(987)))
+        .and_then(|v| checked_div(v, 2));
     black_box(out);
 }
 
