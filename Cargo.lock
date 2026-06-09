@@ -1015,14 +1015,20 @@ dependencies = [
 name = "cu_fixed"
 version = "0.1.0"
 dependencies = [
+ "cu_fixtures",
  "fixed",
  "svm-unit-test",
 ]
 
 [[package]]
+name = "cu_fixtures"
+version = "0.1.0"
+
+[[package]]
 name = "cu_hylo_fix"
 version = "0.1.0"
 dependencies = [
+ "cu_fixtures",
  "hylo-fix",
  "svm-unit-test-std",
 ]
@@ -1031,6 +1037,7 @@ dependencies = [
 name = "cu_rust_decimal"
 version = "0.1.0"
 dependencies = [
+ "cu_fixtures",
  "rust_decimal",
  "svm-unit-test",
 ]
@@ -1039,6 +1046,7 @@ dependencies = [
 name = "cu_spl_math"
 version = "0.1.0"
 dependencies = [
+ "cu_fixtures",
  "spl-math",
  "svm-unit-test-std",
 ]

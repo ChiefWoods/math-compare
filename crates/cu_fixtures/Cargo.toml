@@ -1,0 +1,4 @@
+[package]
+name = "cu_fixtures"
+version = "0.1.0"
+edition = "2024"
