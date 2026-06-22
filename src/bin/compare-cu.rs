@@ -15,6 +15,14 @@ struct Library {
 
 const LIBRARIES: &[(&str, Library)] = &[
     (
+        "bigdecimal",
+        Library {
+            canonical: "bigdecimal",
+            package: "cu_bigdecimal",
+            test_target: "bigdecimal",
+        },
+    ),
+    (
         "fixed",
         Library {
             canonical: "fixed",
@@ -161,14 +169,16 @@ fn print_help() {
     println!();
     println!("Usage: compare-cu [--raw] [--save PATH] <libraries...>");
     println!();
-    println!("Libraries: fixed, rust-decimal, hylo-fix, spl-math");
+    println!("Libraries: bigdecimal, fixed, rust-decimal, hylo-fix, spl-math");
 }
 
 fn canonical_libraries(names: &[String]) -> Result<Vec<String>, String> {
     let mut libraries = Vec::new();
     for name in names {
         let library = library_for(name).ok_or_else(|| {
-            format!("unknown library `{name}`. Choose from: fixed, rust-decimal, hylo-fix, spl-math")
+            format!(
+                "unknown library `{name}`. Choose from: bigdecimal, fixed, rust-decimal, hylo-fix, spl-math"
+            )
         })?;
         if !libraries.iter().any(|item| item == library.canonical) {
             libraries.push(library.canonical.to_string());
@@ -384,3 +394,17 @@ trait Pipe: Sized {
 }
 
 impl<T> Pipe for T {}
+
+#[cfg(test)]
+mod tests {
+    use super::library_for;
+
+    #[test]
+    fn recognizes_bigdecimal() {
+        let library = library_for("bigdecimal").expect("bigdecimal library is registered");
+
+        assert_eq!(library.canonical, "bigdecimal");
+        assert_eq!(library.package, "cu_bigdecimal");
+        assert_eq!(library.test_target, "bigdecimal");
+    }
+}

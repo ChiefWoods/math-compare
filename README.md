@@ -8,6 +8,7 @@ Each math library is tested in its own crate under `crates/` so generated
 ## Libraries
 
 - `fixed`
+- `bigdecimal`
 - `rust-decimal`
 - `hylo-fix`
 - `spl-math`
@@ -24,6 +25,7 @@ Run one library and print only CU readings:
 
 ```sh
 just fixed
+just bigdecimal
 just rust-decimal
 just hylo-fix
 just spl-math
@@ -32,7 +34,7 @@ just spl-math
 Compare libraries:
 
 ```sh
-just compare fixed rust-decimal hylo-fix spl-math
+just compare bigdecimal fixed rust-decimal hylo-fix spl-math
 ```
 
 Or compare between all libraries:
@@ -44,7 +46,7 @@ just compare-all
 Save comparison output as CSV:
 
 ```sh
-just compare-save fixed rust-decimal hylo-fix spl-math
+just compare-save bigdecimal fixed rust-decimal hylo-fix spl-math
 ```
 
 Compare and save output of all libraries:
@@ -55,8 +57,9 @@ just compare-save-all
 
 ## Notes
 
-Most library crates use upstream `svm-unit-test`. `hylo-fix` and `spl-math` use
-the local `svm-unit-test-std` wrapper because their generated SBF tests pull in
+Most library crates use upstream `svm-unit-test`. `bigdecimal`, `hylo-fix`, and
+`spl-math` use the local `svm-unit-test-std` wrapper: BigDecimal needs its
+allocator-backed runtime path, while the other generated SBF tests pull in
 `std`, which conflicts with the upstream no-std panic handler.
 
 ## Contributing

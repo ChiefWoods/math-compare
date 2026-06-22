@@ -8,6 +8,7 @@ members = [
     "crates/cu_fixtures",
     "crates/cu_hylo_fix",
     "crates/cu_fixed",
+    "crates/cu_bigdecimal",
     "crates/cu_rust_decimal",
     "crates/cu_spl_math",
 ]
@@ -17,6 +18,7 @@ resolver = "2"
 cu_fixtures = { path = "crates/cu_fixtures" }
 hylo-fix = "0.6.1"
 fixed = "=1.30.0"
+bigdecimal = { version = "0.4.10", default-features = false }
 rust_decimal = { version = "1.42.0", default-features = false, features = ["maths"] }
 spl-math = { version = "0.3.0", features = ["no-entrypoint", "test-sbf"] }
 svm-unit-test = "0.1.8"

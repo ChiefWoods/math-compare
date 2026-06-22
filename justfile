@@ -1,6 +1,6 @@
 set positional-arguments
 
-libraries := "fixed rust-decimal hylo-fix spl-math"
+libraries := "bigdecimal fixed rust-decimal hylo-fix spl-math"
 
 default:
     just --list
@@ -19,6 +19,9 @@ fmt:
 
 fixed:
     @cargo run --quiet --bin compare-cu -- --raw fixed
+
+bigdecimal:
+    @cargo run --quiet --bin compare-cu -- --raw bigdecimal
 
 rust-decimal:
     @cargo run --quiet --bin compare-cu -- --raw rust-decimal
